@@ -58,3 +58,13 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+
+
+# UserSettings
+/UserSettings/
+
+# 
+/.vsconfig
+/Assets/Scenes/SampleScene.unity
+/Assets/Scenes/SampleScene.unity.meta
+
