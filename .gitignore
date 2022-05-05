@@ -64,7 +64,8 @@ crashlytics-build.properties
 /UserSettings/
 
 # 
+/Assets/Developments/
+/Assets/Developments.meta
+/bin/
 /.vsconfig
-/Assets/Scenes/SampleScene.unity
-/Assets/Scenes/SampleScene.unity.meta
 
