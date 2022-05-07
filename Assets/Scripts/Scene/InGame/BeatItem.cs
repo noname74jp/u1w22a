@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,10 @@ namespace u1w22a
         /// </summary>
         public enum AnimationType
         {
+            /// <summary>
+            /// 無効。
+            /// </summary>
+            Invalid = -1,
             /// <summary>
             /// なし。
             /// </summary>
@@ -52,11 +57,24 @@ namespace u1w22a
         /// </summary>
         int _bpm = 120;
 
-        public void Initialize(int bpm, AnimationType type, bool selectable = true)
+        public void Initialize(int bpm, AnimationType type)
         {
             _bpm = bpm;
-            _animationType = type;
+            if (type != AnimationType.Invalid)
+            {
+                _animationType = type;
+            }
+            _graphic.raycastTarget = false;
+        }
+
+        public void SetSelectable(bool selectable)
+        {
             _graphic.raycastTarget = selectable;
+        }
+
+        public void SetSprite(Sprite sprite)
+        {
+            _targetSpriteRnderer.sprite = sprite;
         }
 
         /// <inheritdoc/>
@@ -130,12 +148,17 @@ namespace u1w22a
             {
                 return;
             }
-            Debug.Log(gameObject.name + " : " + _bpm);
-            if (_bpm == 128)
+            if (_bpm == God.Instance.InGameScene.CurrentBeat)
             {
                 ResetAnimation();
                 _animationType = AnimationType.None;
                 _graphic.raycastTarget = false;
+                gameObject.SetActive(false);
+                God.Instance.InGameScene.Flash(this, true).Forget();
+            }
+            else
+            {
+                God.Instance.InGameScene.Flash(this, false).Forget();
             }
         }
 

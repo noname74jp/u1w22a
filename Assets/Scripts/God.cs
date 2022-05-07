@@ -43,6 +43,11 @@ namespace u1w22a
         public SoundManager SoundManager => _soundManager;
 
         /// <summary>
+        /// インゲームシーン。
+        /// </summary>
+        public InGameScene InGameScene => _inGameScene;
+
+        /// <summary>
         /// 拍カウント用のタイマー。
         /// </summary>
         public BeatTimer BeatTimer => _beatTimer;
@@ -52,6 +57,7 @@ namespace u1w22a
         {
             // 神はひとり
             Instance = this;
+            UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         }
 
         /// <inheritdoc/>
