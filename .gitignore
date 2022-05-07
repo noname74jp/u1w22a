@@ -72,3 +72,9 @@ crashlytics-build.properties
 # AssetStore
 /Assets/Plugins/Demigiant/
 /Assets/Plugins/Demigiant.meta
+
+# Arts
+/Assets/Arts/Fonts/PixelMPlus/*.ttf
+/Assets/Arts/Sounds/PeriTune/*.ogg
+/Assets/Arts/Textures/PixelGazo/*.png
+/Assets/Arts/Textures/SozaiGood/*.png
