@@ -30,7 +30,13 @@ namespace u1w22a
         /// ライセンスボタン。
         /// </summary>
         [SerializeField]
-        SimpleButton _LicenseButton;
+        SimpleButton _licensesButton;
+
+        /// <summary>
+        /// ライセンスウィンドウ。
+        /// </summary>
+        [SerializeField]
+        LicensesWindow _licensesWindow;
 
         /// <inheritdoc/>
         private void Awake()
@@ -46,7 +52,7 @@ namespace u1w22a
             _canvas.gameObject.SetActive(true);
             _tutorialButton.ResetScale();
             _inGameButton.ResetScale();
-            _LicenseButton.ResetScale();
+            _licensesButton.ResetScale();
             God.Instance.SoundManager.PlayBgm(0, SoundBgmId.Title85BPM, true);
             await UniTask.Yield();
             EnableButtons();
@@ -83,9 +89,21 @@ namespace u1w22a
         /// <summary>
         /// ライセンスボタン押下時のコールバック。
         /// </summary>
-        private void OnClickLicenseButton()
+        private void OnClickLicensesButton()
         {
             DisableButtons();
+            _licensesWindow.OpenAsync(OnClickLicensesWindow).Forget();
+            _licensesButton.KillSequence();
+            _licensesButton.ResetScale();
+        }
+
+        /// <summary>
+        /// ライセンスウィンドウ押下時のコールバック。
+        /// </summary>
+        private void OnClickLicensesWindow()
+        {
+            _licensesWindow.CloseAsync().Forget();
+            EnableButtons();
         }
 
         /// <summary>
@@ -97,8 +115,8 @@ namespace u1w22a
             _tutorialButton.ButtonEnabled = true;
             _inGameButton.SetClickCallback(OnClickInGameButton);
             _inGameButton.ButtonEnabled = true;
-            _LicenseButton.SetClickCallback(OnClickLicenseButton);
-            _LicenseButton.ButtonEnabled = true;
+            _licensesButton.SetClickCallback(OnClickLicensesButton);
+            _licensesButton.ButtonEnabled = true;
 
         }
 
@@ -111,8 +129,8 @@ namespace u1w22a
             _tutorialButton.ButtonEnabled = false;
             _inGameButton.SetClickCallback(null);
             _inGameButton.ButtonEnabled = false;
-            _LicenseButton.SetClickCallback(null);
-            _LicenseButton.ButtonEnabled = false;
+            _licensesButton.SetClickCallback(null);
+            _licensesButton.ButtonEnabled = false;
         }
     }
 }
