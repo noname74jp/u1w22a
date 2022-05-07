@@ -68,6 +68,7 @@ crashlytics-build.properties
 /Assets/Developments.meta
 /bin/
 /.vsconfig
+/Recordings/
 
 # AssetStore
 /Assets/Plugins/Demigiant/
