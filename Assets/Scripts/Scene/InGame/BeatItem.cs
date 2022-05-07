@@ -1,146 +1,151 @@
-using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class BeatItem : MonoBehaviour
+namespace u1w22a
 {
-    /// <summary>
-    /// アニメーション種類。
-    /// </summary>
-    enum AnimationType
+    public class BeatItem : MonoBehaviour
     {
         /// <summary>
-        /// なし。
+        /// アニメーション種類。
         /// </summary>
-        None = 0,
-        /// <summary>
-        /// 時計回り。
-        /// </summary>
-        Clockwise,
-        /// <summary>
-        /// 反時計回り。
-        /// </summary>
-        CounterClockwise,
-        /// <summary>
-        /// 拡大縮小。
-        /// </summary>
-        Scale,
-        /// <summary>
-        /// X方向のフリップ。
-        /// </summary>
-        FlipX,
-        /// <summary>
-        /// Y方向のフリップ。
-        /// </summary>
-        FlipY,
-        /// <summary>
-        /// アルファ。
-        /// </summary>
-        Alpha,
-    }
-
-    /// <summary>
-    /// アニメーション対象の<see cref="Transform"/>。
-    /// </summary>
-    [SerializeField]
-    Transform _targetTransform;
-
-    /// <summary>
-    /// アニメーション対象の<see cref="Transform"/>。
-    /// </summary>
-    [SerializeField]
-    SpriteRenderer _targetSpriteRnderer;
-
-    /// <summary>
-    /// アニメーション種類。
-    /// </summary>
-    [SerializeField]
-    AnimationType _animationType = AnimationType.Clockwise;
-
-    /// <summary>
-    /// BPM(Beats Per Minute)。
-    /// </summary>
-    [SerializeField]
-    int _bpm = 120;
-
-    /// <summary>
-    /// クリック可能か。
-    /// </summary>
-    [SerializeField]
-    bool _clickable = true;
-
-    /// <summary>
-    /// 実行中の<see cref="Sequence"/>。
-    /// </summary>
-    Sequence _sequence;
-
-    /// <inheritdoc/>
-    void Start()
-    {
-        // TODO: 再生は外部から制御する
-        Play();
-    }
-
-    /// <summary>
-    /// 再生する。
-    /// </summary>
-    public void Play()
-    {
-        Stop();
-        _sequence = DOTween.Sequence();
-
-        switch (_animationType)
+        public enum AnimationType
         {
-        case AnimationType.Clockwise:
-            _sequence.Append(_targetTransform.DOLocalRotate(new Vector3(0.0f, 0.0f, -360.0f), 60.0f / _bpm, RotateMode.FastBeyond360)
-                    .SetEase(Ease.Linear))
-                .SetLoops(-1);
-            break;
-        case AnimationType.CounterClockwise:
-            _sequence.Append(_targetTransform.DOLocalRotate(new Vector3(0.0f, 0.0f, 360.0f), 60.0f / _bpm, RotateMode.FastBeyond360)
-                    .SetEase(Ease.Linear))
-                .SetLoops(-1);
-            break;
-        case AnimationType.Scale:
-            _sequence.Append(_targetTransform.DOScale(1.25f, 60.0f / _bpm * 0.5f))
-                .Append(_targetTransform.DOScale(1.0f, 60.0f / _bpm * 0.5f))
-                .SetLoops(-1);
-            break;
-        case AnimationType.FlipX:
-            _sequence.Append(_targetTransform.DOLocalRotate(new Vector3(0.0f, 360.0f, 0.0f), 60.0f / _bpm, RotateMode.FastBeyond360)
-                    .SetEase(Ease.Linear))
-                .SetLoops(-1);
-            break;
-        case AnimationType.FlipY:
-            _sequence.Append(_targetTransform.DOLocalRotate(new Vector3(360.0f, 0.0f, 0.0f), 60.0f / _bpm, RotateMode.FastBeyond360)
-                    .SetEase(Ease.Linear))
-                .SetLoops(-1);
-            break;
-        case AnimationType.Alpha:
-            _sequence.Append(_targetSpriteRnderer.DOColor(new Color(1.0f, 1.0f, 1.0f, 0.0f), 60.0f / _bpm * 0.5f))
-                .Append(_targetSpriteRnderer.DOColor(Color.white, 60.0f / _bpm * 0.5f))
-                .SetLoops(-1);
-            break;
+            /// <summary>
+            /// なし。
+            /// </summary>
+            None = 0,
+            /// <summary>
+            /// 拡大縮小。
+            /// </summary>
+            Scale,
+            /// <summary>
+            /// アルファ。
+            /// </summary>
+            Alpha,
         }
-    }
 
-    /// <summary>
-    /// 停止する。
-    /// </summary>
-    public void Stop()
-    {
-        _sequence?.Kill();
-        _sequence = null;
-    }
+        /// <summary>
+        /// 入力判定用の<see cref="Graphic"/>。
+        /// </summary>
+        [SerializeField]
+        Graphic _graphic;
 
-    /// <summary>
-    /// クリックイベント。
-    /// </summary>
-    public void OnClick()
-    {
-        if (!_clickable)
+        /// <summary>
+        /// アニメーション対象の<see cref="Transform"/>。
+        /// </summary>
+        [SerializeField]
+        Transform _targetTransform;
+
+        /// <summary>
+        /// アニメーション対象の<see cref="Transform"/>。
+        /// </summary>
+        [SerializeField]
+        SpriteRenderer _targetSpriteRnderer;
+
+        /// <summary>
+        /// アニメーション種類。
+        /// </summary>
+        AnimationType _animationType = AnimationType.Scale;
+
+        /// <summary>
+        /// BPM(Beats Per Minute)。
+        /// </summary>
+        int _bpm = 120;
+
+        public void Initialize(int bpm, AnimationType type, bool selectable = true)
         {
-            return;
+            _bpm = bpm;
+            _animationType = type;
+            _graphic.raycastTarget = selectable;
         }
-        Debug.Log(gameObject.name);
+
+        /// <inheritdoc/>
+        void Update()
+        {
+            float barDurationMilliseconds = 4.0f * 60000.0f / _bpm; // 4拍1小節の時間
+            float rate = (God.Instance.BeatTimer.BeatTimeMilliseconds % barDurationMilliseconds) / barDurationMilliseconds;
+            switch (_animationType)
+            {
+            case AnimationType.None:
+                break;
+            case AnimationType.Scale:
+                SetLocalScale(rate);
+                break;
+            case AnimationType.Alpha:
+                SetAlpha(rate);
+                break;
+            }
+        }
+
+        void SetLocalScale(float rate)
+        {
+            float scale;
+            if (rate < 0.25f)
+            {
+                scale = 1.0f + 0.25f * (rate / 0.25f);
+            }
+            else if (rate < 0.5f)
+            {
+                scale = 1.0f + 0.25f * ((0.5f - rate) / 0.25f);
+            }
+            else if (rate < 0.75f)
+            {
+                scale = 1.0f + 0.15f * ((rate - 0.5f) / 0.25f);
+            }
+            else
+            {
+                scale = 1.0f + 0.15f * ((1.0f - rate) / 0.25f);
+            }
+            _targetTransform.localScale = new Vector3(scale, scale, scale);
+        }
+
+        void SetAlpha(float rate)
+        {
+            float alpha;
+            if (rate < 0.25f)
+            {
+                alpha = 0.0f + 1.0f * (rate / 0.25f);
+            }
+            else if (rate < 0.5f)
+            {
+                alpha = 0.5f + 0.5f * ((0.5f - rate) / 0.25f);
+            }
+            else if (rate < 0.75f)
+            {
+                alpha = 0.5f + 0.5f * ((rate - 0.5f) / 0.25f);
+            }
+            else
+            {
+                alpha = 0.0f + 1.0f * ((1.0f - rate) / 0.25f);
+            }
+            _targetSpriteRnderer.color = new Color(1.0f, 1.0f, 1.0f, alpha);
+        }
+
+        /// <summary>
+        /// クリックイベント。
+        /// </summary>
+        public void OnClick()
+        {
+            if (!_graphic.raycastTarget)
+            {
+                return;
+            }
+            Debug.Log(gameObject.name + " : " + _bpm);
+            if (_bpm == 128)
+            {
+                ResetAnimation();
+                _animationType = AnimationType.None;
+                _graphic.raycastTarget = false;
+            }
+        }
+
+        /// <summary>
+        /// アニメーションをリセットする。
+        /// </summary>
+        void ResetAnimation()
+        {
+            _targetTransform.localScale = Vector3.one;
+            _targetSpriteRnderer.color = Color.white;
+        }
     }
 }

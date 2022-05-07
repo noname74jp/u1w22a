@@ -32,9 +32,20 @@ namespace u1w22a
         private InGameScene _inGameScene;
 
         /// <summary>
+        /// 拍カウント用のタイマー。
+        /// </summary>
+        [SerializeField]
+        private BeatTimer _beatTimer;
+
+        /// <summary>
         /// サウンド管理クラス。
         /// </summary>
         public SoundManager SoundManager => _soundManager;
+
+        /// <summary>
+        /// 拍カウント用のタイマー。
+        /// </summary>
+        public BeatTimer BeatTimer => _beatTimer;
 
         /// <inheritdoc/>
         void Awake()
