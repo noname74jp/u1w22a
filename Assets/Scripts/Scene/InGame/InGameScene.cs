@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
@@ -56,6 +57,18 @@ namespace u1w22a
         Image _flashImage;
 
         /// <summary>
+        /// 時間。
+        /// </summary>
+        [SerializeField]
+        Text _timeText;
+
+        /// <summary>
+        /// 失敗回数。
+        /// </summary>
+        [SerializeField]
+        Text _failText;
+
+        /// <summary>
         /// キャンセルトークンソース。
         /// </summary>
         CancellationTokenSource _cts;
@@ -65,12 +78,22 @@ namespace u1w22a
         /// </summary>
         List<BeatItem> _remainingEnemies = new List<BeatItem>();
 
+        Stopwatch _stopwatch = new Stopwatch();
+
+        int _failCount;
+
         public int CurrentBeat { get; private set; }
 
         /// <inheritdoc/>
         private void Awake()
         {
             _canvas.gameObject.SetActive(false);
+        }
+
+        /// <inheritdoc/>
+        private void Update()
+        {
+            _timeText.text = (_stopwatch.ElapsedMilliseconds / 1000).ToString();
         }
 
         /// <summary>
@@ -147,6 +170,11 @@ namespace u1w22a
                 }
                 _flashImage.gameObject.SetActive(false);
                 _remainingEnemies.Clear();
+                _stopwatch.Reset();
+                _stopwatch.Start();
+                _timeText.text = "0";
+                _failCount = 0;
+                _failText.text = "0";
                 break;
             case WaveCommandType.PlayBgm:
                 God.Instance.SoundManager.PlayBgm(0, (SoundBgmId)command.Value1, true);
@@ -175,6 +203,7 @@ namespace u1w22a
                 break;
             case WaveCommandType.End:
                 God.Instance.SoundManager.StopAllBgm();
+                _stopwatch.Stop();
                 onClick();
                 break;
             }
@@ -229,7 +258,7 @@ namespace u1w22a
                 enemyItem.SetSelectable(true);
                 _remainingEnemies.Add(enemyItem);
             }
-            Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
+            UnityEngine.Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
         }
 
         public async UniTask Flash(BeatItem target, bool success)
@@ -237,7 +266,7 @@ namespace u1w22a
             _flashImage.gameObject.SetActive(true);
             if (success)
             {
-                _flashImage.color = new Color(0.75f, 0.73f, 0.012f);
+                _flashImage.color = new Color(0.80f, 0.78f, 0.015f);
                 _remainingEnemies.Remove(target);
                 if (_remainingEnemies.Count != 0)
                 {
@@ -249,11 +278,13 @@ namespace u1w22a
             }
             else
             {
-                _flashImage.color = new Color(0.75f, 0.0f, 0.0f);
+                _flashImage.color = new Color(0.8f, 0.0f, 0.0f);
+                ++_failCount;
+                _failText.text = _failCount.ToString();
             }
             await UniTask.Delay(200);
             _flashImage.gameObject.SetActive(false);
-            Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
+            UnityEngine.Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
         }
 
         #endregion

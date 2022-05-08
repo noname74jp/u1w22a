@@ -33,10 +33,11 @@ namespace u1w22a
         {
             _root.SetActive(true);
             _text.text = string.Empty;
-            await _text.DOText(message, message.Length / 30.0f)
+            await _text.DOText(message, message.Length / 45.0f)
                 .SetEase(Ease.Linear);
             await UniTask.WaitWhile(() => !Input.GetMouseButtonDown(0), cancellationToken: token);
             God.Instance.SoundManager.PlaySe(-1, SoundSeId.Click, false);
+            await UniTask.Yield();
             _root.SetActive(false);
         }
     }
