@@ -154,10 +154,12 @@ namespace u1w22a
                 _animationType = AnimationType.None;
                 _graphic.raycastTarget = false;
                 gameObject.SetActive(false);
+                God.Instance.SoundManager.PlaySe(-1, SoundSeId.AttackOK, false);
                 God.Instance.InGameScene.Flash(this, true).Forget();
             }
             else
             {
+                God.Instance.SoundManager.PlaySe(-1, SoundSeId.AttackNG, false);
                 God.Instance.InGameScene.Flash(this, false).Forget();
             }
         }

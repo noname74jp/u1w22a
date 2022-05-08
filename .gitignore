@@ -76,6 +76,7 @@ crashlytics-build.properties
 
 # Arts
 /Assets/Arts/Fonts/PixelMPlus/*.ttf
+/Assets/Arts/Sounds/OtoLogic/*.mp3
 /Assets/Arts/Sounds/PeriTune/*.ogg
 /Assets/Arts/Textures/PixelGazo/*.png
 /Assets/Arts/Textures/SozaiGood/*.png

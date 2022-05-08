@@ -154,6 +154,7 @@ namespace u1w22a
                 CurrentBeat = command.Value2;
                 break;
             case WaveCommandType.SamuraiEnter:
+                God.Instance.SoundManager.PlaySe(-1, SoundSeId.Horagai, false);
                 await _samuraiBeatItem.transform.DOLocalMoveX(-256.0f, 1.0f);
                 break;
             case WaveCommandType.SamuraiExit:

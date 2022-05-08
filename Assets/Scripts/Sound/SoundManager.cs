@@ -34,6 +34,30 @@ namespace u1w22a
     /// </summary>
     public enum SoundSeId
     {
+        /// <summary>
+        /// 攻撃失敗。
+        /// </summary>
+        AttackNG,
+        /// <summary>
+        /// 攻撃成功。
+        /// </summary>
+        AttackOK,
+        /// <summary>
+        /// 法螺貝。
+        /// </summary>
+        Horagai,
+        /// <summary>
+        /// 選択。
+        /// </summary>
+        Select,
+        /// <summary>
+        /// 決定。
+        /// </summary>
+        Submit,
+        /// <summary>
+        /// クリック(メッセージ送り)。
+        /// </summary>
+        Click,
     }
 
     /// <summary>
