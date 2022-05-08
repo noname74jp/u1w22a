@@ -65,6 +65,7 @@ namespace u1w22a
                 _animationType = type;
             }
             _graphic.raycastTarget = false;
+            ResetAnimation();
         }
 
         public void SetSelectable(bool selectable)
