@@ -146,6 +146,7 @@ namespace u1w22a
                     enemy.SetSelectable(false);
                 }
                 _flashImage.gameObject.SetActive(false);
+                _remainingEnemies.Clear();
                 break;
             case WaveCommandType.PlayBgm:
                 God.Instance.SoundManager.PlayBgm(0, (SoundBgmId)command.Value1, true);
@@ -228,6 +229,7 @@ namespace u1w22a
                 enemyItem.SetSelectable(true);
                 _remainingEnemies.Add(enemyItem);
             }
+            Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
         }
 
         public async UniTask Flash(BeatItem target, bool success)
@@ -251,6 +253,7 @@ namespace u1w22a
             }
             await UniTask.Delay(200);
             _flashImage.gameObject.SetActive(false);
+            Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
         }
 
         #endregion
