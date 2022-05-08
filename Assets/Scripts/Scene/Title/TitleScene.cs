@@ -54,7 +54,7 @@ namespace u1w22a
             _inGameButton.ResetScale();
             _licensesButton.ResetScale();
             God.Instance.SoundManager.PlayBgm(0, SoundBgmId.Title85BPM, true);
-            await UniTask.Yield();
+            await God.Instance.Transition.FadeIn();
             EnableButtons();
         }
 
@@ -64,7 +64,7 @@ namespace u1w22a
         public async UniTask ExitAsync()
         {
             God.Instance.SoundManager.FadeOutBgm(0);
-            await UniTask.Delay(1000);
+            await God.Instance.Transition.FadeOut();
             _canvas.gameObject.SetActive(false);
         }
 

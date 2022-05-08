@@ -82,7 +82,7 @@ namespace u1w22a
             _titleButton.ResetScale();
             StartWaveCommands(tutorial);
             God.Instance.BeatTimer.ResetTimer();
-            await UniTask.Yield();
+            await God.Instance.Transition.FadeIn();
             _titleButton.SetClickCallback(onClick);
             _titleButton.ButtonEnabled = true;
         }
@@ -93,7 +93,7 @@ namespace u1w22a
         public async UniTask ExitAsync()
         {
             God.Instance.SoundManager.FadeOutBgm(0);
-            await UniTask.Delay(1000);
+            await God.Instance.Transition.FadeOut();
             _canvas.gameObject.SetActive(false);
         }
 

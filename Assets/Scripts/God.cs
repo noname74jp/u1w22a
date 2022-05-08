@@ -17,25 +17,31 @@ namespace u1w22a
         /// サウンド管理。
         /// </summary>
         [SerializeField]
-        private SoundManager _soundManager;
+        SoundManager _soundManager;
 
         /// <summary>
         /// タイトルシーン。
         /// </summary>
         [SerializeField]
-        private TitleScene _titleScene;
+        TitleScene _titleScene;
 
         /// <summary>
         /// インゲームシーン。
         /// </summary>
         [SerializeField]
-        private InGameScene _inGameScene;
+        InGameScene _inGameScene;
 
         /// <summary>
         /// 拍カウント用のタイマー。
         /// </summary>
         [SerializeField]
-        private BeatTimer _beatTimer;
+        BeatTimer _beatTimer;
+
+        /// <summary>
+        /// トランジション。
+        /// </summary>
+        [SerializeField]
+        Transition _transition;
 
         /// <summary>
         /// サウンド管理クラス。
@@ -51,6 +57,11 @@ namespace u1w22a
         /// 拍カウント用のタイマー。
         /// </summary>
         public BeatTimer BeatTimer => _beatTimer;
+
+        /// <summary>
+        /// トランジション。
+        /// </summary>
+        public Transition Transition => _transition;
 
         /// <inheritdoc/>
         void Awake()
@@ -69,12 +80,14 @@ namespace u1w22a
         public async UniTask ChangeToTutorial()
         {
             await ExitTitle();
+            await UniTask.Delay(500);
             await EnterInGame(true);
         }
 
         public async UniTask ChangeToInGame()
         {
             await ExitTitle();
+            await UniTask.Delay(500);
             await EnterInGame(false);
         }
 
