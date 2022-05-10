@@ -14,6 +14,7 @@ namespace u1w22a
         EnemyEnter,
         EnemyBeat,
         WaveMessage,
+        Ranking,
         End,
     }
 
@@ -284,6 +285,7 @@ namespace u1w22a
 
             // 辰雄「父上……湯煮亭は打ち果たしました」
             new(WaveCommandType.PlayBgm, (int)SoundBgmId.InGame85BPM, 85),
+            new(WaveCommandType.Ranking, 0, 0),
             new(WaveCommandType.WaveMessage, 402000, 0),
             new(WaveCommandType.WaveMessage, 402010, 0),
             new(WaveCommandType.WaveMessage, 402020, 0),

@@ -21,10 +21,16 @@ namespace u1w22a
         SimpleButton _tutorialButton;
 
         /// <summary>
-        /// インゲームボタン。
+        /// ストーリーボタン。
         /// </summary>
         [SerializeField]
-        SimpleButton _inGameButton;
+        SimpleButton _storyButton;
+
+        /// <summary>
+        /// スピードランボタン。
+        /// </summary>
+        [SerializeField]
+        SimpleButton _speedrunButton;
 
         /// <summary>
         /// ライセンスボタン。
@@ -51,7 +57,7 @@ namespace u1w22a
         {
             _canvas.gameObject.SetActive(true);
             _tutorialButton.ResetScale();
-            _inGameButton.ResetScale();
+            _storyButton.ResetScale();
             _licensesButton.ResetScale();
             God.Instance.SoundManager.PlayBgm(0, SoundBgmId.Title85BPM, true);
             await God.Instance.Transition.FadeIn();
@@ -78,12 +84,21 @@ namespace u1w22a
         }
 
         /// <summary>
-        /// インゲームボタン押下時のコールバック。
+        /// ストーリーボタン押下時のコールバック。
         /// </summary>
-        private void OnClickInGameButton()
+        private void OnClickStoryButton()
         {
             DisableButtons();
-            God.Instance.ChangeToInGame().Forget();
+            God.Instance.ChangeToStopry().Forget();
+        }
+
+        /// <summary>
+        /// スピードランボタン押下時のコールバック。
+        /// </summary>
+        private void OnClickSpeedrunButton()
+        {
+            DisableButtons();
+            God.Instance.ChangeToSpeedrun().Forget();
         }
 
         /// <summary>
@@ -113,8 +128,10 @@ namespace u1w22a
         {
             _tutorialButton.SetClickCallback(OnClickTutorialButton);
             _tutorialButton.ButtonEnabled = true;
-            _inGameButton.SetClickCallback(OnClickInGameButton);
-            _inGameButton.ButtonEnabled = true;
+            _storyButton.SetClickCallback(OnClickStoryButton);
+            _storyButton.ButtonEnabled = true;
+            _speedrunButton.SetClickCallback(OnClickSpeedrunButton);
+            _speedrunButton.ButtonEnabled = true;
             _licensesButton.SetClickCallback(OnClickLicensesButton);
             _licensesButton.ButtonEnabled = true;
 
@@ -127,8 +144,10 @@ namespace u1w22a
         {
             _tutorialButton.SetClickCallback(null);
             _tutorialButton.ButtonEnabled = false;
-            _inGameButton.SetClickCallback(null);
-            _inGameButton.ButtonEnabled = false;
+            _storyButton.SetClickCallback(null);
+            _storyButton.ButtonEnabled = false;
+            _speedrunButton.SetClickCallback(null);
+            _speedrunButton.ButtonEnabled = false;
             _licensesButton.SetClickCallback(null);
             _licensesButton.ButtonEnabled = false;
         }

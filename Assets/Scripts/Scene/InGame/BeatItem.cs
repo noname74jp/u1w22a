@@ -149,19 +149,19 @@ namespace u1w22a
             {
                 return;
             }
-            if (_bpm == God.Instance.InGameScene.CurrentBeat)
+            if (_bpm == God.Instance.InGameScene.CurrentBPM)
             {
                 ResetAnimation();
                 _animationType = AnimationType.None;
                 _graphic.raycastTarget = false;
                 gameObject.SetActive(false);
                 God.Instance.SoundManager.PlaySe(-1, SoundSeId.AttackOK, false);
-                God.Instance.InGameScene.Flash(this, true).Forget();
+                God.Instance.InGameScene.Attack(this, true).Forget();
             }
             else
             {
                 God.Instance.SoundManager.PlaySe(-1, SoundSeId.AttackNG, false);
-                God.Instance.InGameScene.Flash(this, false).Forget();
+                God.Instance.InGameScene.Attack(this, false).Forget();
             }
         }
 

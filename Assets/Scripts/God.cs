@@ -81,14 +81,21 @@ namespace u1w22a
         {
             await ExitTitle();
             await UniTask.Delay(500);
-            await EnterInGame(true);
+            await EnterInGame(InGameScene.GameMode.Tutorial);
         }
 
-        public async UniTask ChangeToInGame()
+        public async UniTask ChangeToStopry()
         {
             await ExitTitle();
             await UniTask.Delay(500);
-            await EnterInGame(false);
+            await EnterInGame(InGameScene.GameMode.Story);
+        }
+
+        public async UniTask ChangeToSpeedrun()
+        {
+            await ExitTitle();
+            await UniTask.Delay(500);
+            await EnterInGame(InGameScene.GameMode.Speedrun);
         }
 
         public async UniTask ChangeToTitle()
@@ -107,9 +114,9 @@ namespace u1w22a
             await _titleScene.ExitAsync();
         }
 
-        async UniTask EnterInGame(bool tutorial)
+        async UniTask EnterInGame(InGameScene.GameMode gameMode)
         {
-            await _inGameScene.EnterAsync(tutorial);
+            await _inGameScene.EnterAsync(gameMode);
         }
 
         async UniTask ExitInGame()

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -14,6 +13,25 @@ namespace u1w22a
     /// </summary>
     public class InGameScene : MonoBehaviour
     {
+        /// <summary>
+        /// ゲームモード。
+        /// </summary>
+        public enum GameMode
+        {
+            /// <summary>
+            /// チュートリアル。
+            /// </summary>
+            Tutorial,
+            /// <summary>
+            /// ストーリー。
+            /// </summary>
+            Story,
+            /// <summary>
+            /// スピードラン。
+            /// </summary>
+            Speedrun,
+        }
+
         /// <summary>
         /// <see cref="Canvas"/>。
         /// </summary>
@@ -69,6 +87,11 @@ namespace u1w22a
         Text _failText;
 
         /// <summary>
+        /// ゲームモード。
+        /// </summary>
+        GameMode _gameMode;
+
+        /// <summary>
         /// キャンセルトークンソース。
         /// </summary>
         CancellationTokenSource _cts;
@@ -78,11 +101,20 @@ namespace u1w22a
         /// </summary>
         List<BeatItem> _remainingEnemies = new List<BeatItem>();
 
+        /// <summary>
+        /// プレイ時間。
+        /// </summary>
         Stopwatch _stopwatch = new Stopwatch();
 
+        /// <summary>
+        /// 失敗回数。
+        /// </summary>
         int _failCount;
 
-        public int CurrentBeat { get; private set; }
+        /// <summary>
+        /// 現在のBPM。
+        /// </summary>
+        public int CurrentBPM { get; private set; }
 
         /// <inheritdoc/>
         private void Awake()
@@ -99,11 +131,14 @@ namespace u1w22a
         /// <summary>
         /// 入場。
         /// </summary>
-        public async UniTask EnterAsync(bool tutorial)
+        /// <param name="gameMode">ゲームモード。</param>
+        /// <returns></returns>
+        public async UniTask EnterAsync(GameMode gameMode)
         {
+            _gameMode = gameMode;
             _canvas.gameObject.SetActive(true);
             _titleButton.ResetScale();
-            StartWaveCommands(tutorial);
+            StartWaveCommands(_gameMode == GameMode.Tutorial);
             God.Instance.BeatTimer.ResetTimer();
             await God.Instance.Transition.FadeIn();
             _titleButton.SetClickCallback(onClick);
@@ -130,18 +165,31 @@ namespace u1w22a
 
         #region wave commands
 
+        /// <summary>
+        /// コマンド実行を開始する。
+        /// </summary>
         public void StartWaveCommands(bool tutorial)
         {
             IReadOnlyList<WaveCommand> commands = WaveCommands.GetWaveCommands(tutorial);
             _cts = new CancellationTokenSource();
-            CommandLoop(commands, _cts.Token).Forget();
+            DoCommands(commands, _cts.Token).Forget();
         }
+
+        /// <summary>
+        /// コマンド実行を停止する。
+        /// </summary>
         public void StopWaveCommands()
         {
             _cts.Cancel();
         }
 
-        async UniTask CommandLoop(IReadOnlyList<WaveCommand> commands, CancellationToken token)
+        /// <summary>
+        /// コマンドを実行する。
+        /// </summary>
+        /// <param name="commands">コマンドリスト。</param>
+        /// <param name="token">キャンセルトークン。</param>
+        /// <returns></returns>
+        async UniTask DoCommands(IReadOnlyList<WaveCommand> commands, CancellationToken token)
         {
             try
             {
@@ -157,6 +205,12 @@ namespace u1w22a
             }
         }
 
+        /// <summary>
+        /// コマンドを実行する。
+        /// </summary>
+        /// <param name="command">コマンド。</param>
+        /// <param name="token">キャンセルトークン。</param>
+        /// <returns></returns>
         async UniTask DoCommand(WaveCommand command, CancellationToken token)
         {
             switch (command.CommandType)
@@ -180,7 +234,7 @@ namespace u1w22a
                 God.Instance.SoundManager.PlayBgm(0, (SoundBgmId)command.Value1, true);
                 God.Instance.BeatTimer.ResetTimer();
                 _samuraiBeatItem.Initialize(command.Value2, BeatItem.AnimationType.Scale);
-                CurrentBeat = command.Value2;
+                CurrentBPM = command.Value2;
                 break;
             case WaveCommandType.SamuraiEnter:
                 God.Instance.SoundManager.PlaySe(-1, SoundSeId.Horagai, false);
@@ -192,24 +246,39 @@ namespace u1w22a
                     .SetEase(Ease.InSine);
                 break;
             case WaveCommandType.EnemyEnter:
-                await EnemyEnter(command, token);
+                await EnterEnemies(command, token);
                 break;
             case WaveCommandType.EnemyBeat:
                 await UniTask.WaitWhile(() => _remainingEnemies.Count > command.Value1, cancellationToken: token);
                 break;
             case WaveCommandType.WaveMessage:
-                var message = WaveMessages.GetMessage(command.Value1);
-                await _waveMessage.DisplayMessage(message, token);
+                if (_gameMode != GameMode.Speedrun)
+                {
+                    var message = WaveMessages.GetMessage(command.Value1);
+                    await _waveMessage.DisplayMessage(message, token);
+                }
+                break;
+            case WaveCommandType.Ranking:
+                _stopwatch.Stop();
+                if (_gameMode == GameMode.Speedrun)
+                {
+                    // ランキング処理
+                }
                 break;
             case WaveCommandType.End:
                 God.Instance.SoundManager.StopAllBgm();
-                _stopwatch.Stop();
                 onClick();
                 break;
             }
         }
 
-        private async UniTask EnemyEnter(WaveCommand command, CancellationToken token)
+        /// <summary>
+        /// コマンドに従って敵が入場する。
+        /// </summary>
+        /// <param name="command">コマンド。</param>
+        /// <param name="token">キャンセルトークン。</param>
+        /// <returns></returns>
+        private async UniTask EnterEnemies(WaveCommand command, CancellationToken token)
         {
             var enemiesParam = WaveEnemies.GetEnemies(command.Value1);
             var bpms = new List<int>();
@@ -220,7 +289,7 @@ namespace u1w22a
                 {
                     addValue = -addValue;
                 }
-                var bpm = CurrentBeat + addValue;
+                var bpm = CurrentBPM + addValue;
                 bpms.Add(bpm);
             }
 
@@ -261,7 +330,13 @@ namespace u1w22a
             UnityEngine.Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
         }
 
-        public async UniTask Flash(BeatItem target, bool success)
+        /// <summary>
+        /// 敵を攻撃する。
+        /// </summary>
+        /// <param name="target">攻撃対象。</param>
+        /// <param name="success">成功したか否か。</param>
+        /// <returns></returns>
+        public async UniTask Attack(BeatItem target, bool success)
         {
             _flashImage.gameObject.SetActive(true);
             if (success)
@@ -272,7 +347,7 @@ namespace u1w22a
                 {
                     int index = UnityEngine.Random.Range(0, _remainingEnemies.Count);
                     var reinitializeEnemy = _remainingEnemies[index];
-                    reinitializeEnemy.Initialize(CurrentBeat, BeatItem.AnimationType.Invalid);
+                    reinitializeEnemy.Initialize(CurrentBPM, BeatItem.AnimationType.Invalid);
                     reinitializeEnemy.SetSelectable(true);
                 }
             }
