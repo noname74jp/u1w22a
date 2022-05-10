@@ -58,6 +58,7 @@ namespace u1w22a
             _canvas.gameObject.SetActive(true);
             _tutorialButton.ResetScale();
             _storyButton.ResetScale();
+            _speedrunButton.ResetScale();
             _licensesButton.ResetScale();
             God.Instance.SoundManager.PlayBgm(0, SoundBgmId.Title85BPM, true);
             await God.Instance.Transition.FadeIn();
