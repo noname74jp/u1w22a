@@ -120,6 +120,7 @@ namespace u1w22a
             switch (enemyType)
             {
             case EnemyType.XinobiBlack:
+            case EnemyType.XinobiWhite:
                 AnimationType = BeatItem.AnimationType.Alpha;
                 break;
             default:
