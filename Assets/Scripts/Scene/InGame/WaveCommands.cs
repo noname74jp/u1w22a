@@ -1,6 +1,6 @@
-#define ENABLE_WAVE1
+//#define ENABLE_WAVE1
 //#define ENABLE_WAVE2
-//#define ENABLE_WAVE3
+#define ENABLE_WAVE3
 
 using System.Collections.Generic;
 
@@ -187,6 +187,8 @@ namespace u1w22a
 
             // これで遊戯指南は終了です。
             new(WaveCommandType.WaveMessage, 106000, 0),
+            new(WaveCommandType.WaveMessage, 106010, 0),
+            new(WaveCommandType.WaveMessage, 106020, 0),
             new(WaveCommandType.SamuraiExit, 0, 0),
             new(WaveCommandType.End, 0, 0),
         };
@@ -333,6 +335,8 @@ namespace u1w22a
             { 105010, "汚いなさすが忍者きたない。" },
             { 105020, "でも倒し方は同じです。テンポを見切りましょう。" },
             { 106000, "これで遊戯指南は終了です。" },
+            { 106010, "「物語」ではストーリモードが、" },
+            { 106020, "「腕試し」ではスピードランモードが遊べます。" },
 
             // 200000: WAVE1
             { 200000, "昇鯉辰雄はひとり故国への道を急いでいた。"},
