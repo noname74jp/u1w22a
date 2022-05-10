@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -92,6 +94,48 @@ namespace u1w22a
         GameMode _gameMode;
 
         /// <summary>
+        /// ゲーム終了ボタンのルート。
+        /// </summary>
+        [SerializeField]
+        GameObject _gameEndButtonsRoot;
+
+        /// <summary>
+        /// ランキングボタン。
+        /// </summary>
+        [SerializeField]
+        SimpleButton _rankingButton;
+
+        /// <summary>
+        /// ツイートボタン。
+        /// </summary>
+        [SerializeField]
+        TweetButton _tweetButton;
+
+        /// <summary>
+        /// 終了ボタン。
+        /// </summary>
+        [SerializeField]
+        SimpleButton _endButton;
+
+        /// <summary>
+        /// 時間。
+        /// </summary>
+        [SerializeField]
+        Text _playTimeText;
+
+        /// <summary>
+        /// 失敗。
+        /// </summary>
+        [SerializeField]
+        Text _failCountText;
+
+        /// <summary>
+        /// ランキング時間。
+        /// </summary>
+        [SerializeField]
+        Text _rankingTimeText;
+
+        /// <summary>
         /// キャンセルトークンソース。
         /// </summary>
         CancellationTokenSource _cts;
@@ -138,10 +182,11 @@ namespace u1w22a
             _gameMode = gameMode;
             _canvas.gameObject.SetActive(true);
             _titleButton.ResetScale();
+            _gameEndButtonsRoot.SetActive(false);
             StartWaveCommands(_gameMode == GameMode.Tutorial);
             God.Instance.BeatTimer.ResetTimer();
             await God.Instance.Transition.FadeIn();
-            _titleButton.SetClickCallback(onClick);
+            _titleButton.SetClickCallback(onClickTitleButton);
             _titleButton.ButtonEnabled = true;
         }
 
@@ -155,7 +200,10 @@ namespace u1w22a
             _canvas.gameObject.SetActive(false);
         }
 
-        void onClick()
+        /// <summary>
+        /// タイトルボタンをクリックしたときのコールバック。
+        /// </summary>
+        void onClickTitleButton()
         {
             _titleButton.SetClickCallback(null);
             _titleButton.ButtonEnabled = false;
@@ -262,12 +310,12 @@ namespace u1w22a
                 _stopwatch.Stop();
                 if (_gameMode == GameMode.Speedrun)
                 {
-                    // ランキング処理
+                    await ShowRanking(token);
                 }
                 break;
             case WaveCommandType.End:
                 God.Instance.SoundManager.StopAllBgm();
-                onClick();
+                onClickTitleButton();
                 break;
             }
         }
@@ -360,6 +408,46 @@ namespace u1w22a
             await UniTask.Delay(200);
             _flashImage.gameObject.SetActive(false);
             UnityEngine.Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
+        }
+
+        /// <summary>
+        /// ランキングなどを表示する
+        /// </summary>
+        /// <param name="token">キャンセルトークン。</param>
+        /// <returns></returns>
+        private async UniTask ShowRanking(CancellationToken token)
+        {
+            // 初期化
+            _rankingButton.gameObject.SetActive(false);
+            _tweetButton.gameObject.SetActive(false);
+            _endButton.gameObject.SetActive(false);
+            _gameEndButtonsRoot.SetActive(true);
+            _playTimeText.text = "";
+            _failCountText.text = "";
+            _rankingTimeText.text = "";
+
+            // 時間演出
+            long elapsedMilliseconds = _stopwatch.ElapsedMilliseconds;
+            long totalMilliseconds = elapsedMilliseconds + 10000 * _failCount;
+            await _playTimeText.DOText($"遊戯時間：{elapsedMilliseconds / 3600000:00}:{(elapsedMilliseconds / 60000) % 60:00}:{(elapsedMilliseconds / 1000) % 60:00}.{elapsedMilliseconds % 1000:000}", 0.5f);
+            await _failCountText.DOText($"失敗補正：{_failCount}回 × 10秒", 0.5f);
+            await _rankingTimeText.DOText($"合計時間：{totalMilliseconds / 3600000:00}:{(totalMilliseconds / 60000) % 60:00}:{(totalMilliseconds / 1000) % 60:00}.{totalMilliseconds % 1000:000}", 0.5f);
+            God.Instance.SoundManager.PlaySe(-1, SoundSeId.Submit, false);
+            await UniTask.Delay(500, cancellationToken: token);
+
+            // ボタン設定
+            bool end = false;
+            _rankingButton.gameObject.SetActive(true);
+            _rankingButton.SetClickCallback(() => { });
+            _tweetButton.gameObject.SetActive(true);
+            _endButton.gameObject.SetActive(true);
+            _endButton.SetClickCallback(() => { end = true; });
+
+            // 終了ボタンが押されたら終了
+            await UniTask.WaitWhile(() => !end, cancellationToken: token);
+            _rankingButton.SetClickCallback(null);
+            _endButton.SetClickCallback(null);
+            _gameEndButtonsRoot.SetActive(false);
         }
 
         #endregion
