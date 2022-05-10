@@ -1,3 +1,7 @@
+#define ENABLE_WAVE1
+//#define ENABLE_WAVE2
+//#define ENABLE_WAVE3
+
 using System.Collections.Generic;
 
 namespace u1w22a
@@ -192,7 +196,7 @@ namespace u1w22a
             new(WaveCommandType.PlayBgm, (int)SoundBgmId.InGame85BPM, 85),
             new(WaveCommandType.SamuraiEnter, 0, 0),
 
-#if true // WAVE1
+#if ENABLE_WAVE1 // WAVE1
             // ？？「おうおう、そこ行くお侍さんよお」
             new(WaveCommandType.WaveMessage, 200000, 0),
             new(WaveCommandType.WaveMessage, 200010, 0),
@@ -219,7 +223,7 @@ namespace u1w22a
             new(WaveCommandType.PlayBgm, (int)SoundBgmId.InGame128BPM, 128),
 #endif
 
-#if true // WAVE2
+#if ENABLE_WAVE2 // WAVE2
             // 故国に入った昇鯉辰雄は、殿にお目通りするため城を目指す
             //new(WaveCommandType.WaveMessage, 300000, 0),
             new(WaveCommandType.EnemyEnter, 300000, 20),
@@ -261,7 +265,7 @@ namespace u1w22a
             new(WaveCommandType.PlayBgm, (int)SoundBgmId.InGame150BPM, 150),
 #endif
 
-#if true // WAVE3
+#if ENABLE_WAVE3 // WAVE3
             // 使えない鯉だ、息子も殺せんとは
             new(WaveCommandType.WaveMessage, 400000, 0),
             new(WaveCommandType.WaveMessage, 400010, 0),
