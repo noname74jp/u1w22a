@@ -428,12 +428,21 @@ namespace u1w22a
 
             // 時間演出
             long elapsedMilliseconds = _stopwatch.ElapsedMilliseconds;
-            long totalMilliseconds = elapsedMilliseconds + 10000 * _failCount;
+            long totalMilliseconds = elapsedMilliseconds + 5000 * _failCount;
             await _playTimeText.DOText($"遊戯時間：{elapsedMilliseconds / 60000:00}:{(elapsedMilliseconds / 1000) % 60:00}.{elapsedMilliseconds % 1000:000}", 0.5f);
-            await _failCountText.DOText($"失敗補正：{_failCount}回 × 10秒", 0.5f);
+            await _failCountText.DOText($"失敗補正：{_failCount}回 × 5秒", 0.5f);
             await _rankingTimeText.DOText($"合計時間：{totalMilliseconds / 60000:00}:{(totalMilliseconds / 1000) % 60:00}.{totalMilliseconds % 1000:000}", 0.5f);
             God.Instance.SoundManager.PlaySe(-1, SoundSeId.Submit, false);
             await UniTask.Delay(500, cancellationToken: token);
+
+            // ツイート設定
+            TweetData tweetData = new TweetData()
+            {
+                _url = "https://unityroom.com/games/sengokubeats",
+                _message = $"湯煮亭を{totalMilliseconds / 60000:00}:{(totalMilliseconds / 1000) % 60:00}.{totalMilliseconds % 1000:000}で倒した",
+                _hashTags = new string[] { "unity1week", "sengokubeats" },
+            };
+            _tweetButton.SetTweetData(tweetData);
 
             // ボタン設定
             bool end = false;
