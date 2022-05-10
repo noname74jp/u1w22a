@@ -101,19 +101,19 @@ namespace u1w22a
             float scale;
             if (rate < 0.25f)
             {
-                scale = 1.0f + 0.25f * (rate / 0.25f);
+                scale = 1.0f + 0.40f * (rate / 0.25f);
             }
             else if (rate < 0.5f)
             {
-                scale = 1.0f + 0.25f * ((0.5f - rate) / 0.25f);
+                scale = 1.0f + 0.40f * ((0.5f - rate) / 0.25f);
             }
             else if (rate < 0.75f)
             {
-                scale = 1.0f + 0.15f * ((rate - 0.5f) / 0.25f);
+                scale = 1.0f + 0.20f * ((rate - 0.5f) / 0.25f);
             }
             else
             {
-                scale = 1.0f + 0.15f * ((1.0f - rate) / 0.25f);
+                scale = 1.0f + 0.20f * ((1.0f - rate) / 0.25f);
             }
             _targetTransform.localScale = new Vector3(scale, scale, scale);
         }
