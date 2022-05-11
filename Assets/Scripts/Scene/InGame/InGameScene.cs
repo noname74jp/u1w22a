@@ -387,7 +387,9 @@ namespace u1w22a
             _flashImage.gameObject.SetActive(true);
             if (success)
             {
-                _flashImage.color = new Color(0.80f, 0.78f, 0.015f);
+                _flashImage.color = new Color(0.80f, 0.78f, 0.015f, 0.0f);
+                await _flashImage.DOColor(new Color(0.80f, 0.78f, 0.015f, 1.0f), 0.1f);
+                await UniTask.Delay(100);
                 _remainingEnemies.Remove(target);
                 if (_remainingEnemies.Count != 0)
                 {
@@ -396,14 +398,17 @@ namespace u1w22a
                     reinitializeEnemy.Initialize(CurrentBPM, BeatItem.AnimationType.Invalid);
                     reinitializeEnemy.SetSelectable(true);
                 }
+                await _flashImage.DOColor(new Color(0.80f, 0.78f, 0.015f, 0.0f), 0.1f);
             }
             else
             {
-                _flashImage.color = new Color(0.8f, 0.0f, 0.0f);
+                _flashImage.color = new Color(0.8f, 0.0f, 0.0f, 0.0f);
+                await _flashImage.DOColor(new Color(0.80f, 0.0f, 0.0f, 1.0f), 0.1f);
+                await UniTask.Delay(100);
                 ++_failCount;
                 _failText.text = _failCount.ToString();
+                await _flashImage.DOColor(new Color(0.80f, 0.0f, 0.0f, 0.0f), 0.1f);
             }
-            await UniTask.Delay(200);
             _flashImage.gameObject.SetActive(false);
             UnityEngine.Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
         }
