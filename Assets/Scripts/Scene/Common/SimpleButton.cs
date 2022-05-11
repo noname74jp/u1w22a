@@ -95,9 +95,9 @@ namespace u1w22a
                 .Append(_targetTransform.DOScale(1.2f, dulation))
                 .Append(_targetTransform.DOScale(1.1f, dulation))
                 .SetLoops(-1);
-            _onClickCallback?.Invoke();
             _graphic.raycastTarget = false;
             God.Instance.SoundManager.PlaySe(-1, SoundSeId.Submit, false);
+            _onClickCallback?.Invoke();
         }
 
         /// <inheritdoc/>

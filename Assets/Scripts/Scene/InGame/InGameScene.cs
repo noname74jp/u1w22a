@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -435,7 +433,23 @@ namespace u1w22a
             God.Instance.SoundManager.PlaySe(-1, SoundSeId.Submit, false);
             await UniTask.Delay(500, cancellationToken: token);
 
-            // ツイート設定
+            // ランキング表示
+            System.TimeSpan timeScore = new System.TimeSpan(0, 0, 0, 0, (int)totalMilliseconds);
+            naichilab.RankingLoader.Instance.SendScoreAndShowRanking(timeScore);
+            await UniTask.Delay(500, cancellationToken: token);
+
+            // ランキングボタン設定
+            _rankingButton.ResetScale();
+            _rankingButton.ButtonEnabled = true;
+            _rankingButton.gameObject.SetActive(true);
+            _rankingButton.SetClickCallback(() =>
+            {
+                naichilab.RankingLoader.Instance.SendScoreAndShowRanking(timeScore);
+                _rankingButton.ResetScale();
+                _rankingButton.ButtonEnabled = true;
+            });
+
+            // ツイートボタン設定
             TweetData tweetData = new TweetData()
             {
                 _url = "https://unityroom.com/games/sengokubeats",
@@ -443,12 +457,12 @@ namespace u1w22a
                 _hashTags = new string[] { "unity1week", "sengokubeats" },
             };
             _tweetButton.SetTweetData(tweetData);
-
-            // ボタン設定
-            bool end = false;
-            _rankingButton.gameObject.SetActive(true);
-            _rankingButton.SetClickCallback(() => { });
             _tweetButton.gameObject.SetActive(true);
+
+            // 終了ボタン設定
+            bool end = false;
+            _endButton.ResetScale();
+            _endButton.ButtonEnabled = true;
             _endButton.gameObject.SetActive(true);
             _endButton.SetClickCallback(() => { end = true; });
 

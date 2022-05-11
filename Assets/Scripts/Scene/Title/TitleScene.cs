@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace u1w22a
 {
@@ -31,6 +32,12 @@ namespace u1w22a
         /// </summary>
         [SerializeField]
         SimpleButton _speedrunButton;
+
+        /// <summary>
+        /// ランキングボタン。
+        /// </summary>
+        [SerializeField]
+        SimpleButton _rankingButton;
 
         /// <summary>
         /// ライセンスボタン。
@@ -103,6 +110,28 @@ namespace u1w22a
         }
 
         /// <summary>
+        /// ランキングボタン押下時のコールバック。
+        /// </summary>
+        private void OnClickRankingButton()
+        {
+            DisableButtons();
+            int sceneCount = SceneManager.sceneCount;
+            System.TimeSpan timeScore = new System.TimeSpan(0, 0, 59, 59, 999);
+            naichilab.RankingLoader.Instance.SendScoreAndShowRanking(timeScore);
+            UniTask.Create(async () =>
+            {
+                // シーンが開くまで待つ
+                await UniTask.WaitWhile(() => SceneManager.sceneCount == sceneCount);
+                // シーンが閉じるまで待つ
+                await UniTask.WaitWhile(() => SceneManager.sceneCount != sceneCount);
+                // 後処理
+                _rankingButton.KillSequence();
+                _rankingButton.ResetScale();
+                EnableButtons();
+            });
+        }
+
+        /// <summary>
         /// ライセンスボタン押下時のコールバック。
         /// </summary>
         private void OnClickLicensesButton()
@@ -133,9 +162,10 @@ namespace u1w22a
             _storyButton.ButtonEnabled = true;
             _speedrunButton.SetClickCallback(OnClickSpeedrunButton);
             _speedrunButton.ButtonEnabled = true;
+            _rankingButton.SetClickCallback(OnClickRankingButton);
+            _rankingButton.ButtonEnabled = true;
             _licensesButton.SetClickCallback(OnClickLicensesButton);
             _licensesButton.ButtonEnabled = true;
-
         }
 
         /// <summary>
@@ -149,6 +179,8 @@ namespace u1w22a
             _storyButton.ButtonEnabled = false;
             _speedrunButton.SetClickCallback(null);
             _speedrunButton.ButtonEnabled = false;
+            _rankingButton.SetClickCallback(null);
+            _rankingButton.ButtonEnabled = false;
             _licensesButton.SetClickCallback(null);
             _licensesButton.ButtonEnabled = false;
         }

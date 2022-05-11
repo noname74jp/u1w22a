@@ -80,3 +80,9 @@ crashlytics-build.properties
 /Assets/Arts/Sounds/PeriTune/*.ogg
 /Assets/Arts/Textures/PixelGazo/*.png
 /Assets/Arts/Textures/SozaiGood/*.png
+
+#library
+/Assets/naichilab/
+/Assets/naichilab.meta
+/Assets/NCBM/
+/Assets/NCBM.meta
