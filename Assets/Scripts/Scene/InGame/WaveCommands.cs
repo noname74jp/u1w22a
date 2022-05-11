@@ -1,5 +1,5 @@
-//#define ENABLE_WAVE1
-//#define ENABLE_WAVE2
+#define ENABLE_WAVE1
+#define ENABLE_WAVE2
 #define ENABLE_WAVE3
 
 using System.Collections.Generic;
@@ -161,7 +161,7 @@ namespace u1w22a
             new(WaveCommandType.WaveMessage, 102020, 0),
 
             // 今度は曲者がふたり襲いかかってきました。
-            new(WaveCommandType.EnemyEnter, 103000, 25),
+            new(WaveCommandType.EnemyEnter, 103000, 30),
             new(WaveCommandType.WaveMessage, 103000, 0),
             new(WaveCommandType.WaveMessage, 103010, 0),
             new(WaveCommandType.WaveMessage, 103020, 0),
@@ -174,12 +174,12 @@ namespace u1w22a
             new(WaveCommandType.WaveMessage, 103070, 0),
 
             // 曲者の人数が増えても同じ要領で倒していきます。
-            new(WaveCommandType.EnemyEnter, 104000, 20),
+            new(WaveCommandType.EnemyEnter, 104000, 25),
             new(WaveCommandType.WaveMessage, 104000, 0),
             new(WaveCommandType.EnemyBeat, 0, 0),
 
             // 忍者のテンポの取り方は他の敵と少し違います。
-            new(WaveCommandType.EnemyEnter, 105000, 20),
+            new(WaveCommandType.EnemyEnter, 105000, 25),
             new(WaveCommandType.WaveMessage, 105000, 0),
             new(WaveCommandType.WaveMessage, 105010, 0),
             new(WaveCommandType.WaveMessage, 105020, 0),
@@ -203,16 +203,16 @@ namespace u1w22a
             new(WaveCommandType.WaveMessage, 200000, 0),
             new(WaveCommandType.WaveMessage, 200010, 0),
             new(WaveCommandType.WaveMessage, 200020, 0),
-            new(WaveCommandType.EnemyEnter, 200000, 25),
+            new(WaveCommandType.EnemyEnter, 200000, 30),
             new(WaveCommandType.WaveMessage, 200030, 0),
             new(WaveCommandType.WaveMessage, 200040, 0),
             new(WaveCommandType.WaveMessage, 200050, 0),
             new(WaveCommandType.EnemyBeat, 0, 0),
-            new(WaveCommandType.EnemyEnter, 200010, 20),
+            new(WaveCommandType.EnemyEnter, 200010, 25),
             new(WaveCommandType.EnemyBeat, 0, 0),
-            new(WaveCommandType.EnemyEnter, 200020, 15),
+            new(WaveCommandType.EnemyEnter, 200020, 20),
             new(WaveCommandType.EnemyBeat, 0, 0),
-            new(WaveCommandType.EnemyEnter, 200030, 15),
+            new(WaveCommandType.EnemyEnter, 200030, 20),
             new(WaveCommandType.EnemyBeat, 0, 0),
 
             // 辰雄「ふん、たわいもない。」
@@ -228,7 +228,7 @@ namespace u1w22a
 #if ENABLE_WAVE2 // WAVE2
             // 故国に入った昇鯉辰雄は、殿にお目通りするため城を目指す
             //new(WaveCommandType.WaveMessage, 300000, 0),
-            new(WaveCommandType.EnemyEnter, 300000, 20),
+            new(WaveCommandType.EnemyEnter, 300000, 27),
             new(WaveCommandType.WaveMessage, 300010, 0),
             new(WaveCommandType.WaveMessage, 300020, 0),
             new(WaveCommandType.WaveMessage, 300030, 0),
@@ -238,16 +238,16 @@ namespace u1w22a
             new(WaveCommandType.WaveMessage, 300070, 0),
             new(WaveCommandType.WaveMessage, 300080, 0),
             new(WaveCommandType.EnemyBeat, 0, 0),
-            new(WaveCommandType.EnemyEnter, 300010, 18),
+            new(WaveCommandType.EnemyEnter, 300010, 24),
             new(WaveCommandType.EnemyBeat, 0, 0),
-            new(WaveCommandType.EnemyEnter, 300020, 16),
+            new(WaveCommandType.EnemyEnter, 300020, 21),
             new(WaveCommandType.EnemyBeat, 0, 0),
-            new(WaveCommandType.EnemyEnter, 300030, 14),
+            new(WaveCommandType.EnemyEnter, 300030, 18),
             new(WaveCommandType.EnemyBeat, 0, 0),
 
             // ？？「息子よ、なぜ戻って参った」
             new(WaveCommandType.WaveMessage, 301000, 0),
-            new(WaveCommandType.EnemyEnter, 300040, 12),
+            new(WaveCommandType.EnemyEnter, 300040, 15),
             new(WaveCommandType.WaveMessage, 301010, 0),
             new(WaveCommandType.WaveMessage, 301020, 0),
             new(WaveCommandType.WaveMessage, 301030, 0),
@@ -272,17 +272,17 @@ namespace u1w22a
             new(WaveCommandType.WaveMessage, 400000, 0),
             new(WaveCommandType.WaveMessage, 400010, 0),
 
-            new(WaveCommandType.EnemyEnter, 400000, 16),
+            new(WaveCommandType.EnemyEnter, 400000, 18),
             new(WaveCommandType.EnemyBeat, 0, 0),
-            new(WaveCommandType.EnemyEnter, 400010, 14),
+            new(WaveCommandType.EnemyEnter, 400010, 16),
             new(WaveCommandType.EnemyBeat, 0, 0),
             new(WaveCommandType.EnemyEnter, 400020, 0),
             new(WaveCommandType.EnemyBeat, 0, 0),
-            new(WaveCommandType.EnemyEnter, 400030, 12),
+            new(WaveCommandType.EnemyEnter, 400030, 14),
             new(WaveCommandType.EnemyBeat, 0, 0),
 
             // 湯煮亭！　見つけたぞ！
-            new(WaveCommandType.EnemyEnter, 400040, 10),
+            new(WaveCommandType.EnemyEnter, 400040, 12),
             new(WaveCommandType.WaveMessage, 401000, 0),
             new(WaveCommandType.WaveMessage, 401010, 0),
             new(WaveCommandType.WaveMessage, 401020, 0),
@@ -292,10 +292,11 @@ namespace u1w22a
 
             // 辰雄「父上……湯煮亭は打ち果たしました」
             new(WaveCommandType.PlayBgm, (int)SoundBgmId.InGame85BPM, 85),
-            new(WaveCommandType.Ranking, 0, 0),
             new(WaveCommandType.WaveMessage, 402000, 0),
             new(WaveCommandType.WaveMessage, 402010, 0),
             new(WaveCommandType.WaveMessage, 402020, 0),
+            new(WaveCommandType.WaveMessage, 402030, 0),
+            new(WaveCommandType.Ranking, 0, 0),
             new(WaveCommandType.SamuraiExit, 0, 0),
             new(WaveCommandType.End, 0, 0),
         };
@@ -377,7 +378,7 @@ namespace u1w22a
             { 302020, "怒りの心でテンポがアップした。"},
 
             // 400000: WAVE3
-            { 400000, "<color=#ff8080ff>？？「使えない鯉だ、息子も殺せんとは」</color>"},
+            { 400000, "<color=#ff8080ff>？？「使えない鯉だ、反逆者の息子も殺せんとは」</color>"},
             { 400010, "<color=#40c040ff>辰雄「湯煮亭！　どこだ！」</color>"},
 
             { 401000, "<color=#40c040ff>辰雄「湯煮亭！　見つけたぞ！」</color>"},
@@ -385,9 +386,10 @@ namespace u1w22a
             { 401020, "<color=#40c040ff>辰雄「違うぞ湯煮亭。父も私もただの鯉ではない」</color>"},
             { 401030, "<color=#40c040ff>辰雄「昇り鯉、龍になるものだっ！」</color>"},
 
-            { 402000, "<color=#40c040ff>辰雄「父上……湯煮亭は打ち果たしました」</color>"},
-            { 402010, "そうつぶやくと昇鯉辰雄は真っ直ぐ駆けていった。"},
-            { 402020, "故国の未来へと向かって。"},
+            { 402000, "<color=#ff8080ff>湯煮亭「うぼぁー」</color>"},
+            { 402010, "<color=#40c040ff>辰雄「父上……湯煮亭は打ち果たしました」</color>"},
+            { 402020, "そうつぶやくと昇鯉辰雄は真っ直ぐ駆けていった。"},
+            { 402030, "故国の未来へと向かって。"},
         };
 
         public static string GetMessage(int messageID)
@@ -510,7 +512,7 @@ namespace u1w22a
                     new EnemyParam(EnemyType.SamuraiLow, EnemyAppearType.Move, 3, -2),
                     new EnemyParam(EnemyType.SamuraiHigh, EnemyAppearType.Move, 5,  0),
                     new EnemyParam(EnemyType.XinobiBlack, EnemyAppearType.Move, 0, 0),
-                    new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Move, 3,  2),
+                    new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Fade, 3,  2),
                 }
             },
             { 400010, new EnemyParam[]
@@ -534,15 +536,15 @@ namespace u1w22a
                     new EnemyParam(EnemyType.SamuraiHigh, EnemyAppearType.Move, 2,  0),
                     new EnemyParam(EnemyType.SamuraiLow, EnemyAppearType.Move, 3,  2),
                     new EnemyParam(EnemyType.XinobiBlack, EnemyAppearType.Move, 6,  0),
-                    new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Move, 1,  2),
-                    new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Move, 1, -2),
+                    new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Fade, 1,  2),
+                    new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Fade, 1, -2),
                 }
             },
             { 400040, new EnemyParam[]
                 {
                     new EnemyParam(EnemyType.Unity, EnemyAppearType.Move, 4, 0),
                     new EnemyParam(EnemyType.XinobiBlack, EnemyAppearType.Move, 2, 1),
-                    new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Move, 6, -1),
+                    new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Fade, 6, -1),
                     new EnemyParam(EnemyType.SamuraiHigh, EnemyAppearType.Move, 3, -2),
                     new EnemyParam(EnemyType.SamuraiHigh, EnemyAppearType.Move, 5, 2),
                     new EnemyParam(EnemyType.SamuraiLow, EnemyAppearType.Move, 0, 2),
