@@ -306,7 +306,7 @@ namespace u1w22a
                 break;
             case WaveCommandType.Ranking:
                 _stopwatch.Stop();
-                if (_gameMode == GameMode.Speedrun)
+                if (_gameMode == GameMode.Story || _gameMode == GameMode.Speedrun)
                 {
                     await ShowRanking(token);
                 }
