@@ -435,12 +435,12 @@ namespace u1w22a
             await _playTimeText.DOText($"遊戯時間：{elapsedMilliseconds / 60000:00}:{(elapsedMilliseconds / 1000) % 60:00}.{elapsedMilliseconds % 1000:000}", 0.5f);
             await _failCountText.DOText($"失敗補正：{_failCount}回 × 5秒", 0.5f);
             await _rankingTimeText.DOText($"合計時間：{totalMilliseconds / 60000:00}:{(totalMilliseconds / 1000) % 60:00}.{totalMilliseconds % 1000:000}", 0.5f);
-            God.Instance.SoundManager.PlaySe(-1, SoundSeId.Submit, false);
             await UniTask.Delay(500, cancellationToken: token);
 
             // ランキング表示
             System.TimeSpan timeScore = new System.TimeSpan(0, 0, 0, 0, (int)totalMilliseconds);
             naichilab.RankingLoader.Instance.SendScoreAndShowRanking(timeScore);
+            God.Instance.SoundManager.PlaySe(-1, SoundSeId.Submit, false);
             await UniTask.Delay(500, cancellationToken: token);
 
             // ランキングボタン設定
