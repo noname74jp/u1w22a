@@ -1,3 +1,4 @@
+//#define ENABLE_SCREENSHOT
 #define ENABLE_WAVE1
 #define ENABLE_WAVE2
 #define ENABLE_WAVE3
@@ -198,6 +199,11 @@ namespace u1w22a
             new(WaveCommandType.PlayBgm, (int)SoundBgmId.InGame85BPM, 85),
             new(WaveCommandType.SamuraiEnter, 0, 0),
 
+#if ENABLE_SCREENSHOT // 画撮用
+            new(WaveCommandType.EnemyEnter, 900000, 10),
+            new(WaveCommandType.EnemyBeat, 0, 0),
+#endif
+
 #if ENABLE_WAVE1 // WAVE1
             // ？？「おうおう、そこ行くお侍さんよお」
             new(WaveCommandType.WaveMessage, 200000, 0),
@@ -245,7 +251,7 @@ namespace u1w22a
             new(WaveCommandType.EnemyEnter, 300030, 18),
             new(WaveCommandType.EnemyBeat, 0, 0),
 
-            // ？？「息子よ、なぜ戻って参った」
+            // ？？「息子よ、よくぞ戻って参った」
             new(WaveCommandType.WaveMessage, 301000, 0),
             new(WaveCommandType.EnemyEnter, 300040, 15),
             new(WaveCommandType.WaveMessage, 301010, 0),
@@ -550,6 +556,14 @@ namespace u1w22a
                     new EnemyParam(EnemyType.SamuraiLow, EnemyAppearType.Move, 0, 2),
                     new EnemyParam(EnemyType.SamuraiLow, EnemyAppearType.Move, 0, -2),
                     new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Fade, -4, 0),
+                }
+            },
+            // 画撮用
+            { 900000, new EnemyParam[]
+                {
+                    new EnemyParam(EnemyType.SamuraiHigh, EnemyAppearType.Move, 0, -2),
+                    new EnemyParam(EnemyType.XinobiBlack, EnemyAppearType.Move, 2,  0),
+                    new EnemyParam(EnemyType.SamuraiLow, EnemyAppearType.Move, 0,  2),
                 }
             },
         };
