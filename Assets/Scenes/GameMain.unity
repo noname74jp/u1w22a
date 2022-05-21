@@ -2316,6 +2316,7 @@ GameObject:
   - component: {fileID: 405405760}
   - component: {fileID: 405405759}
   - component: {fileID: 405405761}
+  - component: {fileID: 405405762}
   m_Layer: 0
   m_Name: God
   m_TagString: Untagged
@@ -2367,6 +2368,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 860ec3b4822d44522a37b8cc0fe0eef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &405405762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405405758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f10a735730148a6b7f0bf5727b3dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasScalers:
+  - {fileID: 1154778537}
+  - {fileID: 591752828}
+  - {fileID: 1779347499}
+  - {fileID: 761018682}
+  _referenceResolution: {x: 960, y: 540}
 --- !u!1001 &429012380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5172,21 +5191,20 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "unity-simple-ranking\n\nMIT License\n\n Copyright (c) 2019 naichi\n\n
-    Permission is hereby granted, free of charge, to any person obtaining a copy\n
-    of this software and associated documentation files (the \"Software\"), to deal\n
-    in the Software without restriction, including without limitation the rights\n
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n copies
-    of the Software, and to permit persons to whom the Software is\n furnished to
-    do so, subject to the following conditions:\n\n The above copyright notice and
-    this permission notice shall be included in all\n copies or substantial portions
-    of the Software.\n\n THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF
-    ANY KIND, EXPRESS OR\n IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-    MERCHANTABILITY,\n FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
-    EVENT SHALL THE\n AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
-    OR OTHER\n LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-    FROM,\n OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-    IN THE\n SOFTWARE."
+  m_Text: "unity-simple-ranking\n\nMIT License\n\n Copyright (c) 2019 naichi\n\nPermission
+    is hereby granted, free of charge, to any person obtaining a copy\nof this software
+    and associated documentation files (the \"Software\"), to deal\nin the Software
+    without restriction, including without limitation the rights\nto use, copy, modify,
+    merge, publish, distribute, sublicense, and/or sell\n copies of the Software,
+    and to permit persons to whom the Software is\n furnished to do so, subject to
+    the following conditions:\n\n The above copyright notice and this permission
+    notice shall be included in all\n copies or substantial portions of the Software.\n\n
+    THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n FITNESS
+    FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n AUTHORS
+    OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n LIABILITY, WHETHER
+    IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n OUT OF OR IN CONNECTION
+    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n SOFTWARE."
 --- !u!222 &1194056248
 CanvasRenderer:
   m_ObjectHideFlags: 0
