@@ -81,6 +81,13 @@ namespace u1w22a
         /// <inheritdoc/>
         void Update()
         {
+            // 選択可能な敵はフラッシュ中は動かない(書き換えを見せないため)
+            if (God.Instance.InGameScene.Attacking && _graphic.raycastTarget)
+            {
+                return;
+            }
+
+            //
             float barDurationMilliseconds = 4.0f * 60000.0f / _bpm; // 4拍1小節の時間
             float rate = (God.Instance.BeatTimer.BeatTimeMilliseconds % barDurationMilliseconds) / barDurationMilliseconds;
             switch (_animationType)

@@ -158,6 +158,11 @@ namespace u1w22a
         /// </summary>
         public int CurrentBPM { get; private set; }
 
+        /// <summary>
+        /// 攻撃中か。
+        /// </summary>
+        public bool Attacking => _flashImage.gameObject.activeSelf;
+
         /// <inheritdoc/>
         private void Awake()
         {
@@ -388,7 +393,7 @@ namespace u1w22a
             if (success)
             {
                 _flashImage.color = new Color(0.80f, 0.78f, 0.015f, 0.0f);
-                await _flashImage.DOColor(new Color(0.90f, 0.88f, 0.15f, 1.0f), 0.05f);
+                await _flashImage.DOColor(new Color(0.90f, 0.88f, 0.15f, 0.7f), 0.05f);
                 await UniTask.Delay(200);
                 _remainingEnemies.Remove(target);
                 if (_remainingEnemies.Count != 0)
@@ -403,7 +408,7 @@ namespace u1w22a
             else
             {
                 _flashImage.color = new Color(0.8f, 0.0f, 0.0f, 0.0f);
-                await _flashImage.DOColor(new Color(0.80f, 0.0f, 0.0f, 1.0f), 0.05f);
+                await _flashImage.DOColor(new Color(0.80f, 0.0f, 0.0f, 0.7f), 0.05f);
                 await UniTask.Delay(200);
                 ++_failCount;
                 _failText.text = _failCount.ToString();
