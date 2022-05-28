@@ -6,12 +6,16 @@ using UnityEngine.UI;
 
 namespace u1w22a
 {
+    /// <summary>
+    /// 単純な自作ボタン。
+    /// </summary>
     public class SimpleButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         /// <summary>
-        /// アニメーションの間隔。
+        /// アニメーションの周期。
         /// </summary>
-        const float dulation = 60.0f / 85.0f * 0.5f; // 85BPMの半分
+        /// <remarks>85BPMの半分</remarks>
+        const float dulation = 60.0f / 85.0f * 0.5f;
 
         /// <summary>
         /// アニメーション対象の<see cref="Transform"/>。
@@ -28,12 +32,12 @@ namespace u1w22a
         /// <summary>
         /// クリックコールバック。
         /// </summary>
-        private Action _onClickCallback { get; set; }
+        Action _onClickCallback { get; set; }
 
         /// <summary>
         /// 実行中の<see cref="Sequence"/>。
         /// </summary>
-        Sequence _sequence = null;
+        Sequence _sequence;
 
         /// <summary>
         /// ボタンの有効状態。
@@ -101,7 +105,7 @@ namespace u1w22a
         }
 
         /// <inheritdoc/>
-        private void OnDisable()
+        void OnDisable()
         {
             KillSequence();
         }

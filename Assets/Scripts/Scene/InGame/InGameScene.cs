@@ -164,14 +164,15 @@ namespace u1w22a
         public bool Attacking => _flashImage.gameObject.activeSelf;
 
         /// <inheritdoc/>
-        private void Awake()
+        void Awake()
         {
             _canvas.gameObject.SetActive(false);
         }
 
         /// <inheritdoc/>
-        private void Update()
+        void Update()
         {
+            // プレイ時間表示
             _timeText.text = (_stopwatch.ElapsedMilliseconds / 1000).ToString();
         }
 
@@ -242,6 +243,7 @@ namespace u1w22a
         /// <returns></returns>
         async UniTask DoCommands(IReadOnlyList<WaveCommand> commands, CancellationToken token)
         {
+            // キャンセルコマンド対応＆デバッグ用にtry-catchする
             try
             {
                 foreach (var command in commands)
@@ -329,8 +331,10 @@ namespace u1w22a
         /// <param name="command">コマンド。</param>
         /// <param name="token">キャンセルトークン。</param>
         /// <returns></returns>
-        private async UniTask EnterEnemies(WaveCommand command, CancellationToken token)
+        async UniTask EnterEnemies(WaveCommand command, CancellationToken token)
         {
+            // 基準のBPMから指定の値の整数倍ずつずれたリズムのリストを作る
+            // 早い方にずれるか遅い方にずれるかはランダム
             var enemiesParam = WaveEnemies.GetEnemies(command.Value1);
             var bpms = new List<int>();
             for (var i = 0; i < enemiesParam.Count; ++i)
@@ -344,6 +348,7 @@ namespace u1w22a
                 bpms.Add(bpm);
             }
 
+            // コマンドの指定と上で作成したBPMをもとに敵を作り入場させる
             var tasks = new List<UniTask>();
             for (var i = 0; i < enemiesParam.Count; ++i)
             {
@@ -368,10 +373,10 @@ namespace u1w22a
                 }
             }
 
-            //
+            // 入場待ち
             await UniTask.WhenAll(tasks);
 
-            //
+            // 敵を選択可能にして残敵リストに追加
             for (var i = 0; i < enemiesParam.Count; ++i)
             {
                 var enemyItem = _enemyBeatItems[i];
@@ -389,7 +394,11 @@ namespace u1w22a
         /// <returns></returns>
         public async UniTask Attack(BeatItem target, bool success)
         {
+            // フラッシュ画像を有効化
+            // 同時に入力が制限される
             _flashImage.gameObject.SetActive(true);
+
+            // 攻撃成功なら敵ひとりのBPMを書き換えて黄色フラッシュ
             if (success)
             {
                 _flashImage.color = new Color(0.80f, 0.78f, 0.015f, 0.0f);
@@ -405,6 +414,7 @@ namespace u1w22a
                 }
                 await _flashImage.DOColor(new Color(0.90f, 0.88f, 0.15f, 0.0f), 0.05f);
             }
+            // 攻撃失敗なら失敗回数をカウントして赤色フラッシュ
             else
             {
                 _flashImage.color = new Color(0.8f, 0.0f, 0.0f, 0.0f);
@@ -414,6 +424,9 @@ namespace u1w22a
                 _failText.text = _failCount.ToString();
                 await _flashImage.DOColor(new Color(0.80f, 0.0f, 0.0f, 0.0f), 0.05f);
             }
+
+            // フラッシュ画像を無効化
+            // 同時に入力の制限が解除される
             _flashImage.gameObject.SetActive(false);
             UnityEngine.Debug.Log($"_remainingEnemies.Count = {_remainingEnemies.Count}");
         }
@@ -423,7 +436,7 @@ namespace u1w22a
         /// </summary>
         /// <param name="token">キャンセルトークン。</param>
         /// <returns></returns>
-        private async UniTask ShowRanking(CancellationToken token)
+        async UniTask ShowRanking(CancellationToken token)
         {
             // 初期化
             _rankingButton.gameObject.SetActive(false);

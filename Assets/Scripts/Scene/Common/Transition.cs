@@ -11,27 +11,27 @@ namespace u1w22a
     public class Transition : MonoBehaviour
     {
         /// <summary>
-        /// 画像。
+        /// 表示画像。
         /// </summary>
         [SerializeField]
-        private Image _image;
+        Image _image;
 
         /// <summary>
         /// 標準のフェード時間。
         /// </summary>
         [SerializeField]
-        private float _defaultFadeTime = 0.5f;
+        float _defaultFadeTime = 0.5f;
 
         /// <summary>
         /// タイムスケールが有効か否か。
         /// </summary>
         [SerializeField]
-        private bool _enableTimeScale = false;
+        bool _enableTimeScale = false;
 
         /// <summary>
-        /// キャンセル処理用。
+        /// キャンセル処理用<see cref="CancellationTokenSource"/>。
         /// </summary>
-        private CancellationTokenSource _cancellationTokenSource;
+        CancellationTokenSource _cancellationTokenSource;
 
         /// <inheritdoc/>
         protected void OnDestroy()
@@ -77,7 +77,7 @@ namespace u1w22a
         /// <param name="endAlpha">終了時のアルファ値。</param>
         /// <param name="cancellationToken">キャンセルトークン。</param>
         /// <returns></returns>
-        private async UniTask Fade(float fadeTime, float beginAlpha, float endAlpha, CancellationToken cancellationToken)
+        async UniTask Fade(float fadeTime, float beginAlpha, float endAlpha, CancellationToken cancellationToken)
         {
             // 初期状態を設定
             if (float.IsNaN(fadeTime))

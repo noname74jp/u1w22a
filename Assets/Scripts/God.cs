@@ -77,6 +77,10 @@ namespace u1w22a
             EnterTitle().Forget();
         }
 
+        /// <summary>
+        /// チュートリアルに遷移する。
+        /// </summary>
+        /// <returns></returns>
         public async UniTask ChangeToTutorial()
         {
             await ExitTitle();
@@ -84,6 +88,10 @@ namespace u1w22a
             await EnterInGame(InGameScene.GameMode.Tutorial);
         }
 
+        /// <summary>
+        /// ストーリーに遷移する。
+        /// </summary>
+        /// <returns></returns>
         public async UniTask ChangeToStopry()
         {
             await ExitTitle();
@@ -91,6 +99,10 @@ namespace u1w22a
             await EnterInGame(InGameScene.GameMode.Story);
         }
 
+        /// <summary>
+        /// スピードランに遷移する。
+        /// </summary>
+        /// <returns></returns>
         public async UniTask ChangeToSpeedrun()
         {
             await ExitTitle();
@@ -98,27 +110,47 @@ namespace u1w22a
             await EnterInGame(InGameScene.GameMode.Speedrun);
         }
 
+        /// <summary>
+        /// タイトルに遷移する。
+        /// </summary>
+        /// <returns></returns>
         public async UniTask ChangeToTitle()
         {
             await ExitInGame();
             await EnterTitle();
         }
 
+        /// <summary>
+        /// タイトルに入場する。
+        /// </summary>
+        /// <returns></returns>
         async UniTask EnterTitle()
         {
             await _titleScene.EnterAsync();
         }
 
+        /// <summary>
+        /// タイトルから退場する。
+        /// </summary>
+        /// <returns></returns>
         async UniTask ExitTitle()
         {
             await _titleScene.ExitAsync();
         }
 
+        /// <summary>
+        /// インゲームに入場する。
+        /// </summary>
+        /// <returns></returns>
         async UniTask EnterInGame(InGameScene.GameMode gameMode)
         {
             await _inGameScene.EnterAsync(gameMode);
         }
 
+        /// <summary>
+        /// インゲームから退場する。
+        /// </summary>
+        /// <returns></returns>
         async UniTask ExitInGame()
         {
             await _inGameScene.ExitAsync();

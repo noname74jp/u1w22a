@@ -33,6 +33,7 @@ namespace u1w22a
         /// <inheritdoc/>
         void Update()
         {
+            // long型のままなら値のループ処理は不要だが、int型にしたいため念のため対応
             BeatTimeMilliseconds = (int)(stopwatch.ElapsedMilliseconds % LoopMilliseconds);
         }
 

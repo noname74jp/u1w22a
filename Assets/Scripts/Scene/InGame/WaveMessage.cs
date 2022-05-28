@@ -29,6 +29,12 @@ namespace u1w22a
             _root.SetActive(false);
         }
 
+        /// <summary>
+        /// メッセージを表示する。
+        /// </summary>
+        /// <param name="message">表示するメッセージ。</param>
+        /// <param name="token">キャンセルトークン。</param>
+        /// <returns></returns>
         public async UniTask DisplayMessage(string message, CancellationToken token)
         {
             _root.SetActive(true);

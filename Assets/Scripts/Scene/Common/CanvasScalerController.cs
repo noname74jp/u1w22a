@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace u1w22a
 {
     /// <summary>
-    /// <see cref="CanvasScaler"/>を更新する。
+    /// 画面の比率に応じて<see cref="CanvasScaler"/>を更新する。
     /// </summary>
     public class CanvasScalerController : MonoBehaviour
     {

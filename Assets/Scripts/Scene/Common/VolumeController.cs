@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace u1w22a
 {
     /// <summary>
-    /// 音量制御
+    /// 音量制御スライダー。
     /// </summary>
     public class VolumeController : MonoBehaviour
     {

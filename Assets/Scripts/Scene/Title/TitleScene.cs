@@ -52,7 +52,7 @@ namespace u1w22a
         LicensesWindow _licensesWindow;
 
         /// <inheritdoc/>
-        private void Awake()
+        void Awake()
         {
             _canvas.gameObject.SetActive(false);
         }
@@ -94,7 +94,7 @@ namespace u1w22a
         /// <summary>
         /// ストーリーボタン押下時のコールバック。
         /// </summary>
-        private void OnClickStoryButton()
+        void OnClickStoryButton()
         {
             DisableButtons();
             God.Instance.ChangeToStopry().Forget();
@@ -103,7 +103,7 @@ namespace u1w22a
         /// <summary>
         /// スピードランボタン押下時のコールバック。
         /// </summary>
-        private void OnClickSpeedrunButton()
+        void OnClickSpeedrunButton()
         {
             DisableButtons();
             God.Instance.ChangeToSpeedrun().Forget();
@@ -112,7 +112,7 @@ namespace u1w22a
         /// <summary>
         /// ランキングボタン押下時のコールバック。
         /// </summary>
-        private void OnClickRankingButton()
+        void OnClickRankingButton()
         {
             DisableButtons();
             int sceneCount = SceneManager.sceneCount;
@@ -134,7 +134,7 @@ namespace u1w22a
         /// <summary>
         /// ライセンスボタン押下時のコールバック。
         /// </summary>
-        private void OnClickLicensesButton()
+        void OnClickLicensesButton()
         {
             DisableButtons();
             _licensesWindow.OpenAsync(OnClickLicensesWindow).Forget();
@@ -145,7 +145,7 @@ namespace u1w22a
         /// <summary>
         /// ライセンスウィンドウ押下時のコールバック。
         /// </summary>
-        private void OnClickLicensesWindow()
+        void OnClickLicensesWindow()
         {
             _licensesWindow.CloseAsync().Forget();
             EnableButtons();
@@ -154,7 +154,7 @@ namespace u1w22a
         /// <summary>
         /// ボタンを有効にする。
         /// </summary>
-        private void EnableButtons()
+        void EnableButtons()
         {
             _tutorialButton.SetClickCallback(OnClickTutorialButton);
             _tutorialButton.ButtonEnabled = true;
@@ -171,7 +171,7 @@ namespace u1w22a
         /// <summary>
         /// ボタンを無効にする。
         /// </summary>
-        private void DisableButtons()
+        void DisableButtons()
         {
             _tutorialButton.SetClickCallback(null);
             _tutorialButton.ButtonEnabled = false;

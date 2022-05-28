@@ -141,7 +141,10 @@ namespace u1w22a
     /// <remarks>外部データ化するのが本来は正しい。</remarks>
     public static class WaveCommands
     {
-        private static readonly IReadOnlyList<WaveCommand> TutorialWaveCommands = new WaveCommand[]
+        /// <summary>
+        /// チュートリアル用コマンド。
+        /// </summary>
+        static readonly IReadOnlyList<WaveCommand> TutorialWaveCommands = new WaveCommand[]
         {
             // プレイしていただきありがとうございます。
             new(WaveCommandType.Begin, 0, 0),
@@ -193,7 +196,11 @@ namespace u1w22a
             new(WaveCommandType.SamuraiExit, 0, 0),
             new(WaveCommandType.End, 0, 0),
         };
-        private static readonly IReadOnlyList<WaveCommand> InGameWaveCommands = new WaveCommand[]
+
+        /// <summary>
+        /// ゲーム用コマンド。
+        /// </summary>
+        static readonly IReadOnlyList<WaveCommand> InGameWaveCommands = new WaveCommand[]
         {
             new(WaveCommandType.Begin, 0, 0),
             new(WaveCommandType.PlayBgm, (int)SoundBgmId.InGame85BPM, 85),
@@ -307,6 +314,11 @@ namespace u1w22a
             new(WaveCommandType.End, 0, 0),
         };
 
+        /// <summary>
+        /// コマンドを取得する。
+        /// </summary>
+        /// <param name="tutorial">チュートリアルか否か。</param>
+        /// <returns>コマンド。</returns>
         public static IReadOnlyList<WaveCommand> GetWaveCommands(bool tutorial)
         {
             return tutorial ? TutorialWaveCommands : InGameWaveCommands;
@@ -319,7 +331,10 @@ namespace u1w22a
     /// <remarks>外部データ化するのが本来は正しい。</remarks>
     public static class WaveMessages
     {
-        private static readonly IReadOnlyDictionary<int, string> messageMap = new Dictionary<int, string>()
+        /// <summary>
+        /// メッセージID→メッセージ。
+        /// </summary>
+        static readonly IReadOnlyDictionary<int, string> messageMap = new Dictionary<int, string>()
         {
             // 100000: チュートリアル
             { 100000, "プレイしていただきありがとうございます。" },
@@ -398,6 +413,11 @@ namespace u1w22a
             { 402030, "故国の未来へと向かって。"},
         };
 
+        /// <summary>
+        /// メッセージを取得する。
+        /// </summary>
+        /// <param name="messageID">メッセージID。</param>
+        /// <returns>メッセージ</returns>
         public static string GetMessage(int messageID)
         {
             if (messageMap.TryGetValue(messageID, out string message))
@@ -414,7 +434,10 @@ namespace u1w22a
     /// <remarks>外部データ化するのが本来は正しい。</remarks>
     public static class WaveEnemies
     {
-        private static readonly IReadOnlyDictionary<int, IReadOnlyList<EnemyParam>> enemySetMap = new Dictionary<int, IReadOnlyList<EnemyParam>>()
+        /// <summary>
+        /// 敵グループID→敵パラメーターリスト。
+        /// </summary>
+        static readonly IReadOnlyDictionary<int, IReadOnlyList<EnemyParam>> enemySetMap = new Dictionary<int, IReadOnlyList<EnemyParam>>()
         {
             // 100000: チュートリアル
             { 102000, new EnemyParam[]
@@ -442,6 +465,7 @@ namespace u1w22a
                     new EnemyParam(EnemyType.XinobiBlack, EnemyAppearType.Move, 3,  2),
                 }
             },
+
             // 200000: WAVE1
             { 200000, new EnemyParam[]
                 {
@@ -471,6 +495,7 @@ namespace u1w22a
                     new EnemyParam(EnemyType.Rohnin, EnemyAppearType.Move, 4,  2),
                 }
             },
+
             // WAVE2
             { 300000, new EnemyParam[]
                 {
@@ -512,6 +537,7 @@ namespace u1w22a
                     new EnemyParam(EnemyType.XinobiBlack, EnemyAppearType.Move, 5, 2),
                 }
             },
+
             // WAVE3
             { 400000, new EnemyParam[]
                 {
@@ -558,6 +584,7 @@ namespace u1w22a
                     new EnemyParam(EnemyType.XinobiWhite, EnemyAppearType.Fade, -4, 0),
                 }
             },
+
             // 画撮用
             { 900000, new EnemyParam[]
                 {
@@ -568,6 +595,11 @@ namespace u1w22a
             },
         };
 
+        /// <summary>
+        /// 敵パラメーターのリストを取得する。
+        /// </summary>
+        /// <param name="enemySetID">敵グループID。</param>
+        /// <returns>敵パラメーターのリスト。</returns>
         public static IReadOnlyList<EnemyParam> GetEnemies(int enemySetID)
         {
             if (enemySetMap.TryGetValue(enemySetID, out IReadOnlyList<EnemyParam> enemies))
